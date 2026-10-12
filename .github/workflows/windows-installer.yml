@@ -54,11 +54,15 @@ jobs:
           retention-days: 14
 
       - name: Release veröffentlichen
-        if: startsWith(github.ref, 'refs/tags/v')
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          TAG="${GITHUB_REF_NAME}"
+          # Tag aus der Version in Cargo.toml (bei Start über ein Tag: dieses Tag)
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then
+            TAG="$GITHUB_REF_NAME"
+          else
+            TAG="v$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)"
+          fi
           SHA=$(cut -d' ' -f1 dist/*.exe.sha256)
           cat > notes.md <<EOF
           ## Bildwerk ${TAG#v} – Windows-Installer
@@ -76,4 +80,8 @@ jobs:
           SHA-256: \`${SHA}\`
           EOF
           sed -i 's/^          //' notes.md
-          gh release create "$TAG" dist/* --title "Bildwerk ${TAG#v}" --notes-file notes.md
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" dist/* --clobber
+          else
+            gh release create "$TAG" dist/* --target "$GITHUB_SHA" --title "Bildwerk ${TAG#v}" --notes-file notes.md
+          fi
