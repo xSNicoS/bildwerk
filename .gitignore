@@ -1,0 +1,5 @@
+/target
+/dist
+# große Modelle: per tools/modelle_laden.py herunterladen
+/models/RealESRGAN_*.onnx
+/models/face/gfpgan_1.4.onnx

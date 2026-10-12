@@ -1,0 +1,72 @@
+BILDWERK – KI-Bildverbesserung
+===============================
+
+Bildwerk ist freie Software unter der MIT-Lizenz:
+
+Copyright (c) 2026 Bildwerk
+
+Hiermit wird unentgeltlich jeder Person, die eine Kopie der Software und der
+zugehörigen Dokumentationen (die "Software") erhält, die Erlaubnis erteilt,
+sie uneingeschränkt zu nutzen, inklusive und ohne Ausnahme mit dem Recht, sie
+zu verwenden, zu kopieren, zu verändern, zusammenzufügen, zu veröffentlichen,
+zu verbreiten, zu unterlizenzieren und/oder zu verkaufen, und Personen, denen
+diese Software überlassen wird, diese Rechte zu verschaffen, unter den
+folgenden Bedingungen:
+
+Der obige Urheberrechtsvermerk und dieser Erlaubnisvermerk sind in allen
+Kopien oder Teilkopien der Software beizulegen.
+
+DIE SOFTWARE WIRD OHNE JEDE AUSDRÜCKLICHE ODER IMPLIZIERTE GARANTIE
+BEREITGESTELLT, EINSCHLIEẞLICH DER GARANTIE ZUR BENUTZUNG FÜR DEN
+VORGESEHENEN ODER EINEM BESTIMMTEN ZWECK SOWIE JEGLICHER RECHTSVERLETZUNG,
+JEDOCH NICHT DARAUF BESCHRÄNKT. IN KEINEM FALL SIND DIE AUTOREN ODER
+COPYRIGHTINHABER FÜR JEGLICHEN SCHADEN ODER SONSTIGE ANSPRÜCHE HAFTBAR ZU
+MACHEN, OB INFOLGE DER ERFÜLLUNG EINES VERTRAGES, EINES DELIKTES ODER ANDERS
+IM ZUSAMMENHANG MIT DER SOFTWARE ODER SONSTIGER VERWENDUNG DER SOFTWARE
+ENTSTANDEN.
+
+
+MITGELIEFERTE KOMPONENTEN DRITTER
+=================================
+
+Die vollständigen Lizenztexte liegen nach der Installation im Ordner
+"licenses" im Programmverzeichnis.
+
+KI-Modelle
+----------
+* Real-ESRGAN (realesr-general-x4v3, realesr-general-wdn-x4v3,
+  RealESRGAN_x4plus, RealESRGAN_x2plus, RealESRGAN_x4plus_anime_6B)
+  Copyright (c) 2021, Xintao Wang – BSD-3-Clause-Lizenz
+  https://github.com/xinntao/Real-ESRGAN
+
+* GFPGAN 1.4 (Gesichtsrestaurierung)
+  Copyright (C) 2021 THL A29 Limited, a Tencent company – Apache License 2.0,
+  ausgenommen die darin genannten Drittkomponenten (u. a. NVIDIA-Lizenz für
+  StyleGAN2 und CC BY-NC-SA 4.0 für DFDNet, beide nur nicht-kommerziell).
+  Vor einer kommerziellen Nutzung der Gesichtsrestaurierung bitte die
+  Lizenzlage prüfen. https://github.com/TencentARC/GFPGAN
+  ONNX-Fassung: https://github.com/facefusion/facefusion-assets
+
+* YuNet (Gesichtserkennung)
+  OpenCV Zoo – MIT-Lizenz
+  https://github.com/opencv/opencv_zoo
+
+Laufzeitbibliotheken
+--------------------
+* ONNX Runtime mit DirectML (onnxruntime.dll, onnxruntime_providers_shared.dll)
+  Copyright (c) Microsoft Corporation – MIT-Lizenz
+  https://github.com/microsoft/onnxruntime
+
+* DirectML (DirectML.dll)
+  Copyright (c) Microsoft Corporation – weitergegeben gemäß den
+  Lizenzbedingungen von Microsoft DirectML für Weitervertrieb.
+
+* Microsoft Visual C++ Laufzeitbibliotheken (msvcp140.dll, msvcp140_1.dll,
+  vcruntime140.dll, vcruntime140_1.dll)
+  Copyright (c) Microsoft Corporation – weitergegeben gemäß den
+  Lizenzbedingungen für Microsoft Visual Studio (verteilbarer Code).
+
+Rust-Bibliotheken
+-----------------
+egui/eframe, image, ort, ndarray, rayon, rfd, anyhow und weitere –
+jeweils MIT- und/oder Apache-2.0-Lizenz.

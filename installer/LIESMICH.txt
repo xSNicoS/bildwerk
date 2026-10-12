@@ -1,0 +1,36 @@
+BILDWERK – KI-Bildverbesserung
+==============================
+
+So geht's
+---------
+1. Bildwerk starten und ein Foto ins Fenster ziehen (oder „Öffnen …“).
+2. Rechts ein KI-Modell und die Ausgabegröße wählen:
+   - „Allgemein – schnell“: gute Wahl für die meisten Fotos
+   - „Allgemein + Entrauschen“: für verrauschte Handy- oder Nachtfotos
+   - „Foto – hohe Qualität“: kräftigste Details, langsamer
+   - „Anime / Grafik / KI-Bilder“: für Zeichnungen und glatte Flächen
+   - Ausgabegröße 1×: Bild nur verbessern, Größe bleibt gleich
+3. Optional „Gesichter“ einschalten, um unscharfe Gesichter zu restaurieren.
+4. „Verbessern“ klicken.
+5. Mit „Nachschärfen“ das Ergebnis live feinjustieren.
+6. „Speichern unter …“ (PNG/TIFF in 16 Bit, JPEG oder WebP).
+
+Bedienung der Ansicht
+---------------------
+- Weiße Linie ziehen: Vorher/Nachher vergleichen
+- Mausrad: zoomen, Ziehen: verschieben, Doppelklick: einpassen
+- Strg+O öffnen, Strg+S speichern
+
+Grafikkarte
+-----------
+Bildwerk nutzt automatisch die Grafikkarte (DirectML – NVIDIA, AMD und
+Intel). Ist das nicht möglich, rechnet es auf dem Prozessor. Was gerade
+verwendet wird, steht nach der Verarbeitung unten rechts in der Statuszeile.
+Bei sehr großen Bildern und wenig Grafikspeicher unter „Erweitert“ eine
+kleinere Kachelgröße wählen.
+
+Kommandozeile (Eingabeaufforderung)
+-----------------------------------
+  Bildwerk.exe --help
+  Bildwerk.exe --cli -i foto.jpg -o foto_neu.png --face 0.7 --sharpen 0.6
+  Bildwerk.exe --cli -i C:\Fotos -o C:\Fotos\verbessert --scale 2
