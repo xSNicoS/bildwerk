@@ -1,0 +1,79 @@
+name: Windows-Installer
+
+# Baut Bildwerk für Windows samt Installer (alle KI-Modelle enthalten)
+# und veröffentlicht ihn als GitHub-Release.
+# Auslöser: ein Versions-Tag wie v0.2.0 – oder manuell unter „Actions“.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Werkzeuge installieren
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y mingw-w64 nsis
+          rustup target add x86_64-pc-windows-gnu
+          pip install --break-system-packages onnx numpy
+
+      - name: Cargo-Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: windows-${{ hashFiles('Cargo.lock') }}
+
+      - name: KI-Modelle herunterladen und umwandeln
+        run: python3 tools/modelle_laden.py
+
+      - name: Programm und Installer bauen
+        run: ./tools/build_windows.sh
+
+      - name: Prüfsumme
+        run: |
+          cd dist
+          for f in *.exe; do sha256sum "$f" > "$f.sha256"; done
+          cat *.sha256
+
+      - name: Als Artefakt ablegen
+        uses: actions/upload-artifact@v4
+        with:
+          name: Bildwerk-Setup
+          path: dist/*
+          retention-days: 14
+
+      - name: Release veröffentlichen
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          SHA=$(cut -d' ' -f1 dist/*.exe.sha256)
+          cat > notes.md <<EOF
+          ## Bildwerk ${TAG#v} – Windows-Installer
+
+          **Download:** \`Bildwerk-Setup-${TAG#v}.exe\` unter „Assets“. Enthält alle KI-Modelle und funktioniert danach komplett offline.
+
+          - KI-Vergrößerung ×2/×4 (Real-ESRGAN) oder 1× „nur verbessern“
+          - Gesichtsrestaurierung (GFPGAN 1.4)
+          - Nachschärfen live, Vorher/Nachher-Vergleich
+          - Grafikkarte über DirectML (NVIDIA, AMD, Intel), sonst Prozessor
+          - Kontextmenü „Mit Bildwerk verbessern“, Kommandozeile
+
+          Windows 10/11 (64 Bit), ca. 550 MB. Der Installer ist nicht signiert: Bei „Der Computer wurde durch Windows geschützt“ → „Weitere Informationen“ → „Trotzdem ausführen“.
+
+          SHA-256: \`${SHA}\`
+          EOF
+          sed -i 's/^          //' notes.md
+          gh release create "$TAG" dist/* --title "Bildwerk ${TAG#v}" --notes-file notes.md
